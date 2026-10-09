@@ -57,6 +57,15 @@ class WallpaperApp {
 
     // Initial Load
     await this.fetchWallpapers({ resetPage: true });
+
+    // Auto-open modal simulator if ?modal parameter is present (useful for UI captures)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('modal') && this.state.wallpapers.length > 0) {
+      setTimeout(() => {
+        const targetW = this.state.wallpapers.find(w => w.orientation === 'portrait') || this.state.wallpapers[0];
+        this.modal.open(targetW, this.state.wallpapers);
+      }, 250);
+    }
   }
 
   // =========================================================================
