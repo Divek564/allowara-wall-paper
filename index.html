@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>AuraWalls — 4K & Mobile Wallpaper Studio</title>
+    <meta name="description" content="Discover, preview on live smartphone and desktop mockups, and download ultra high-definition wallpapers for mobile and desktop displays. Powered by Pexels API." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google Fonts: Outfit for Display, Plus Jakarta Sans for Body, JetBrains Mono for Specs -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Top Ambient Glow Aura Background -->
+    <div class="ambient-mesh-glow" aria-hidden="true"></div>
+
+    <div id="app" class="app-shell">
+      <!-- Main Application Header -->
+      <header class="app-header">
+        <div class="header-container">
+          <!-- Brand Logo -->
+          <div class="brand-area" role="banner">
+            <a href="#" class="brand-link" id="brandHomeLink" aria-label="AuraWalls Home">
+              <span class="brand-icon-box">
+                <span class="brand-icon-prism">❖</span>
+              </span>
+              <div class="brand-text-col">
+                <span class="brand-title">AURA<span class="brand-accent">WALLS</span></span>
+                <span class="brand-badge">STUDIO 4K</span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Primary Orientation Switcher Tabs -->
+          <nav class="orientation-nav" aria-label="Screen Format Selection">
+            <div class="orientation-pill-group" role="tablist">
+              <button type="button" class="tab-pill active" data-orientation="all" id="tabAll" role="tab" aria-selected="true">
+                <span class="tab-icon">🌐</span>
+                <span class="tab-label">All Displays</span>
+              </button>
+              <button type="button" class="tab-pill" data-orientation="portrait" id="tabMobile" role="tab" aria-selected="false">
+                <span class="tab-icon">📱</span>
+                <span class="tab-label">Mobile (9:16)</span>
+                <span class="tab-count-tag" id="tagMobileCount">QHD+</span>
+              </button>
+              <button type="button" class="tab-pill" data-orientation="landscape" id="tabDesktop" role="tab" aria-selected="false">
+                <span class="tab-icon">🖥️</span>
+                <span class="tab-label">Desktop (16:9)</span>
+                <span class="tab-count-tag" id="tagDesktopCount">4K UHD</span>
+              </button>
+              <button type="button" class="tab-pill" data-orientation="favorites" id="tabFavorites" role="tab" aria-selected="false">
+                <span class="tab-icon">❤️</span>
+                <span class="tab-label">Favorites</span>
+                <span class="fav-badge-count" id="headerFavBadge">0</span>
+              </button>
+            </div>
+          </nav>
+
+          <!-- Search Bar with Suggestions -->
+          <div class="search-section">
+            <form class="search-form" id="searchForm" role="search">
+              <div class="search-input-shell">
+                <span class="search-icon" aria-hidden="true">🔍</span>
+                <input
+                  type="search"
+                  id="searchInput"
+                  class="search-input"
+                  placeholder="Search 4K wallpapers (e.g. Cyberpunk, Space, AMOLED, Mountains)..."
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+                <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="Clear search" style="display:none">
+                  &times;
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right Action Controls -->
+          <div class="header-actions">
+            <!-- Pexels API Status & Config Button -->
+            <button type="button" class="api-status-trigger" id="btnOpenApiModal" title="Pexels API Connection Settings">
+              <span class="api-status-indicator" id="headerApiIndicator"></span>
+              <span class="api-status-text" id="headerApiText">Pexels API</span>
+              <span class="api-settings-cog">⚙️</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Sub-Bar: Categories & Color Palette -->
+        <div class="filter-subbar">
+          <div class="subbar-container">
+            <!-- Category Chips Carousel -->
+            <div class="categories-scroll-wrapper" id="categoriesWrapper" role="region" aria-label="Popular Wallpaper Categories">
+              <!-- Dynamically populated from CATEGORIES -->
+            </div>
+
+            <!-- Color Palette Filter Dropdown / Strip -->
+            <div class="color-palette-wrapper" id="colorPaletteWrapper">
+              <span class="color-palette-label">Hue:</span>
+              <div class="color-swatches-strip" id="colorSwatchesStrip">
+                <!-- Dynamically populated from COLOR_SWATCHES -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Application Viewport -->
+      <main id="mainContent" class="app-main">
+        <div class="main-container">
+          <!-- Feed Header: Active Filters & Stats -->
+          <div class="feed-header-row">
+            <div class="feed-title-col">
+              <div class="breadcrumbs-row" id="feedBreadcrumbs">
+                <span class="crumb-highlight">Curated Spotlight</span>
+                <span class="crumb-sep">/</span>
+                <span id="crumbActiveOrientation">All Formats</span>
+              </div>
+              <h1 class="feed-heading" id="feedTitle">Ultra HD 4K & Mobile Wallpapers</h1>
+              <p class="feed-subheading" id="feedSubtitle">
+                Hand-picked high-resolution wallpapers tailored for iPhone, Android, MacBook, and 4K Ultrawide setups.
+              </p>
+            </div>
+
+            <!-- Feed Utility Actions -->
+            <div class="feed-utilities">
+              <div class="feed-source-pill" id="feedSourcePill">
+                <span class="source-dot"></span>
+                <span id="feedSourceLabel">Curated Showcase</span>
+              </div>
+              <div class="feed-count-badge" id="feedResultsCount">
+                16 Wallpapers
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Search / Filter Badges (Removable chips) -->
+          <div class="active-filter-chips" id="activeFilterChips" style="display:none">
+            <!-- Dynamic active filter pills -->
+          </div>
+
+          <!-- Wallpaper Grid -->
+          <section class="grid-section" aria-label="Wallpaper Collection">
+            <div class="wallpaper-grid" id="wallpaperGrid">
+              <!-- Populated dynamically with createWallpaperCard -->
+            </div>
+
+            <!-- Loading Skeleton Grid -->
+            <div class="skeleton-grid" id="skeletonGrid" style="display:none">
+              <div class="skeleton-card skeleton-portrait"></div>
+              <div class="skeleton-card skeleton-landscape"></div>
+              <div class="skeleton-card skeleton-portrait"></div>
+              <div class="skeleton-card skeleton-landscape"></div>
+              <div class="skeleton-card skeleton-portrait"></div>
+              <div class="skeleton-card skeleton-landscape"></div>
+            </div>
+
+            <!-- Empty State / No Results -->
+            <div class="empty-state-card" id="emptyStateContainer" style="display:none">
+              <div class="empty-icon">🌌</div>
+              <h2 class="empty-title" id="emptyStateTitle">No Wallpapers Found</h2>
+              <p class="empty-desc" id="emptyStateDesc">
+                We couldn't find any wallpapers matching your active search and filters. Try clearing your filters or exploring our curated collections.
+              </p>
+              <button type="button" class="btn-primary" id="btnResetFilters">
+                Reset All Filters
+              </button>
+            </div>
+
+            <!-- Pagination / Load More Footer -->
+            <div class="load-more-section" id="loadMoreSection">
+              <button type="button" class="btn-load-more" id="btnLoadMore">
+                <span class="btn-spinner" id="loadMoreSpinner" style="display:none"></span>
+                <span id="loadMoreText">Load More Wallpapers</span>
+              </button>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <!-- App Footer with Pexels Credit & Shortcuts -->
+      <footer class="app-footer">
+        <div class="footer-container">
+          <div class="footer-brand-col">
+            <div class="footer-brand-title">AURA<span class="brand-accent">WALLS</span></div>
+            <p class="footer-brand-tagline">
+              The ultimate 4K & Mobile wallpaper studio with realistic device simulation.
+            </p>
+          </div>
+
+          <div class="footer-pexels-col">
+            <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer" class="pexels-badge-link">
+              <span class="pexels-text">Photos provided by</span>
+              <span class="pexels-logo-tag">Pexels</span>
+            </a>
+            <span class="footer-license-note">All photos are free to use under the Pexels License.</span>
+          </div>
+
+          <div class="footer-shortcuts-col">
+            <span class="shortcuts-title">Keyboard Shortcuts</span>
+            <div class="shortcut-pills">
+              <span class="key-pill"><kbd>←</kbd> <kbd>→</kbd> Navigate</span>
+              <span class="key-pill"><kbd>Esc</kbd> Close</span>
+              <span class="key-pill"><kbd>/</kbd> Quick Search</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
